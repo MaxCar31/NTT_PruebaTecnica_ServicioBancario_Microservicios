@@ -1,0 +1,371 @@
+{
+	"info": {
+		"_postman_id": "5e13a4a0-a94f-4d9d-9f5b-1c5c56c2c31e",
+		"name": "Prueba Tecnica - Account Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3621457"
+	},
+	"item": [
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "Create Account (Jose Lema)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountNumber\": \"478758\",\n    \"accountType\": \"SAVINGS\",\n    \"initialBalance\": 2000,\n    \"status\": true,\n    \"customerId\": 1 \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/accounts",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Account (Marianela Montalvo)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountNumber\": \"225487\",\n    \"accountType\": \"CHECKING\",\n    \"initialBalance\": 100,\n    \"status\": true,\n    \"customerId\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/accounts",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/accounts",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Account by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/accounts/1",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Account by Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/accounts/search?accountNumber=478758",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"search"
+							],
+							"query": [
+								{
+									"key": "accountNumber",
+									"value": "478758"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Account",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountNumber\": \"478758-UPD\",\n    \"accountType\": \"SAVINGS\",\n    \"initialBalance\": 2500,\n    \"status\": true,\n    \"customerId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/accounts/1",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account (Logical)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/accounts/1",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movements",
+			"item": [
+				{
+					"name": "Register Movement (DEBIT - Retiro 575)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": 1,\n    \"amount\": -575\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/movements",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"movements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Movement (CREDIT - Deposito 600)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": 2,\n    \"amount\": 600\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/movements",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"movements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Movement (FAIL - Saldo no disponible)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": 1,\n    \"amount\": -99999999\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/movements",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"movements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Movements by Account ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/movements/by-account?accountId=1",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"movements",
+								"by-account"
+							],
+							"query": [
+								{
+									"key": "accountId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Movements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/movements/all",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"movements",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Get Account Statement (Excel)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl_account}}/api/v1/reports?clientId=1&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"host": [
+								"{{baseUrl_account}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "1"
+								},
+								{
+									"key": "accountNumber",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01T00:00:00"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-31T23:59:59"
+								}
+							]
+						},
+						"description": "Genera el reporte F4. Debes usar el botón \"Send and Download\" en Postman para guardar el archivo Excel."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl_account",
+			"value": "http://localhost:8081",
+			"type": "default"
+		}
+	]
+}

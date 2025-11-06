@@ -1,3 +1,7 @@
 package com.bank.account.domain.exception;
 
-// TODO: Implementar ResourceNotFoundException
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}

@@ -1,0 +1,231 @@
+openapi: 3.0.0
+info:
+  title: Customer Service API
+  description: API for managing customers and persons.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8080
+    description: Local server (customer-service)
+paths:
+  /api/v1/customers:
+    get:
+      tags:
+        - Customers
+      summary: Get all customers
+      operationId: findAllCustomers
+      responses:
+        "200":
+          description: List of customers retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CustomerResponse"
+    post:
+      tags:
+        - Customers
+      summary: Create a new customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCustomerRequest"
+      responses:
+        "201":
+          description: Customer created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+        "400":
+          description: Invalid input data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Conflict (e.g., identification already exists)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/customers/{id}:
+    get:
+      tags:
+        - Customers
+      summary: Get a customer by ID
+      operationId: findCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Customer found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+        "404":
+          description: Customer not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+        - Customers
+      summary: Update an existing customer
+      operationId: updateCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCustomerRequest"
+      responses:
+        "200":
+          description: Customer updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+        "404":
+          description: Customer not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - Customers
+      summary: Delete a customer by ID (Logical delete)
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: Customer deleted successfully.
+        "404":
+          description: Customer not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    CreateCustomerRequest:
+      type: object
+      required:
+        - name
+        - gender
+        - identification
+        - address
+        - phone
+        - password
+      properties:
+        name:
+          type: string
+          pattern: "^[a-zA-Z\\s]+$"
+          description: "Name can only contain letters and spaces"
+          example: "Jose Lema"
+        gender:
+          type: string
+          pattern: "^[MF]$"
+          description: "Gender must be M or F"
+          example: "M"
+        identification:
+          type: string
+          pattern: "^[0-9]{8,12}$"
+          description: "Identification must be 8-12 digits"
+          example: "1234567890"
+        address:
+          type: string
+          description: "Address cannot be blank"
+          example: "Otavalo sn y principal"
+        phone:
+          type: string
+          pattern: "^\\+?[0-9]{7,15}$"
+          description: "Phone must be a valid format"
+          example: "098254785"
+        password:
+          type: string
+          pattern: "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,}$"
+          description: "Password must have uppercase, number, special char and min 8 chars"
+          example: "P@ssw0rd1"
+    UpdateCustomerRequest:
+      type: object
+      required:
+        - address
+      properties:
+        name:
+          type: string
+          pattern: "^[a-zA-Z\\s]+$"
+          description: "Name can only contain letters and spaces"
+          example: "Jose Lema"
+        gender:
+          type: string
+          pattern: "^[MF]$"
+          description: "Gender must be M or F"
+          example: "M"
+        address:
+          type: string
+          description: "Address cannot be blank"
+          example: "Amazonas y NNUU"
+        phone:
+          type: string
+          pattern: "^\\+?[0-9]{7,15}$"
+          description: "Phone must be a valid format"
+          example: "097548965"
+        status:
+          type: boolean
+          description: "Set customer status to true (active) or false (inactive)."
+          example: true
+    CustomerResponse:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        gender:
+          type: string
+        identification:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        status:
+          type: boolean
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string

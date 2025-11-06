@@ -1,0 +1,418 @@
+openapi: 3.0.0
+info:
+  title: Accounts and Movements API
+  description: API for managing accounts, movements, and reports.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8081
+    description: Local server (account-service)
+paths:
+  /api/v1/accounts:
+    get:
+      tags:
+        - Accounts
+      summary: Get all accounts
+      operationId: findAllAccounts
+      responses:
+        "200":
+          description: List of accounts retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AccountResponse"
+    post:
+      tags:
+        - Accounts
+      summary: Create a new account
+      operationId: createAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountRequest"
+      responses:
+        "201":
+          description: Account created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponse"
+        "400":
+          description: Invalid input data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Associated customer not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: Customer service is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/accounts/search:
+    get:
+      tags:
+        - Accounts
+      summary: Get an account by its number
+      operationId: findAccountByNumber
+      parameters:
+        - name: accountNumber
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Account found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponse"
+        "404":
+          description: Account not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/accounts/{id}:
+    get:
+      tags:
+        - Accounts
+      summary: Get an account by ID
+      operationId: findAccountById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Account found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponse"
+        "404":
+          description: Account not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+        - Accounts
+      summary: Update an existing account
+      operationId: updateAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountRequest"
+      responses:
+        "200":
+          description: Account updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponse"
+        "404":
+          description: Account not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - Accounts
+      summary: Delete an account by ID (Logical delete)
+      operationId: deleteAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: Account deleted successfully.
+        "404":
+          description: Account not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/movements:
+    post:
+      tags:
+        - Movements
+      summary: Register a new movement
+      operationId: registerMovement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MovementRequest"
+      responses:
+        "201":
+          description: Movement registered successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovementResponse"
+        "400":
+          description: Insufficient balance or invalid data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Account not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/movements/by-account:
+    get:
+      tags:
+        - Movements
+      summary: Get all movements for a specific account
+      operationId: findMovementsByAccountId
+      parameters:
+        - name: accountId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: List of movements retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MovementResponse"
+  /api/v1/movements/all:
+    get:
+      tags:
+        - Movements
+      summary: Get all movements
+      operationId: findAllMovements
+      responses:
+        "200":
+          description: List of all movements retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MovementResponse"
+  /api/v1/movements/{id}:
+    get:
+      tags:
+        - Movements
+      summary: Get a movement by ID
+      operationId: findMovementById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Movement found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovementResponse"
+        "404":
+          description: Movement not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - Movements
+      summary: Delete a movement by ID
+      operationId: deleteMovement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: Movement deleted successfully.
+        "404":
+          description: Movement not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/reports:
+    get:
+      tags:
+        - Reports
+      summary: Generate Account Statement Report (Excel)
+      operationId: getAccountStatementReport
+      parameters:
+        - name: clientId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: accountNumber
+          in: query
+          schema:
+            type: string
+          example: "478758"
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          example: "2025-10-01T00:00:00"
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          example: "2025-10-31T23:59:59"
+      responses:
+        "200":
+          description: Report generated successfully.
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Invalid input data. 'clientId' or 'accountNumber' must be provided.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Client or Account not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    AccountRequest:
+      type: object
+      required:
+        - initialBalance
+        - status
+        - customerId
+      properties:
+        accountNumber:
+          type: string
+          pattern: "^[0-9]{10,20}$"
+          example: "4787581234"
+        accountType:
+          type: string
+          pattern: "^(SAVINGS|CHECKING|CREDIT)$"
+          example: "SAVINGS"
+        initialBalance:
+          type: number
+          example: 2000.00
+        status:
+          type: boolean
+          example: true
+        customerId:
+          type: integer
+          format: int64
+          example: 1
+    AccountResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        accountNumber:
+          type: string
+        accountType:
+          type: string
+        initialBalance:
+          type: number
+        status:
+          type: boolean
+        customerId:
+          type: integer
+          format: int66
+    MovementRequest:
+      type: object
+      required:
+        - accountId
+        - amount
+      properties:
+        accountId:
+          type: integer
+          format: int64
+          example: 1
+        amount:
+          type: number
+          description: "Monto del movimiento. Negativo para débito (retiro), positivo para crédito (depósito)."
+          example: -575.00
+    MovementResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dateTime:
+          type: string
+          format: date-time
+        movementType:
+          type: string
+          example: "Debit"
+        amount:
+          type: number
+          example: -575.00
+        balance:
+          type: number
+          example: 1425.00
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string

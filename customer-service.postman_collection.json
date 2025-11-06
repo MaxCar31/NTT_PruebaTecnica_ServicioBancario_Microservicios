@@ -1,0 +1,182 @@
+{
+	"info": {
+		"_postman_id": "c1f7b0a8-b4b1-4f2a-8c8f-1a3b9d7e0f6c",
+		"name": "Prueba Tecnica - Customer Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3621457"
+	},
+	"item": [
+		{
+			"name": "Create Customer (Jose Lema)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Jose Lema\",\n    \"gender\": \"M\",\n    \"identification\": \"1234567890\",\n    \"address\": \"Otavalo sn y principal\",\n    \"phone\": \"098254785\",\n    \"password\": \"P@ssw0rd1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl_customer}}/api/v1/customers",
+					"host": [
+						"{{baseUrl_customer}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customers"
+					]
+				},
+				"description": "Crea el primer cliente de ejemplo"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer (Marianela Montalvo)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Marianela Montalvo\",\n    \"gender\": \"F\",\n    \"identification\": \"0987654321\",\n    \"address\": \"Amazonas y NNUU\",\n    \"phone\": \"097548965\",\n    \"password\": \"P@ssw0rd5678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl_customer}}/api/v1/customers",
+					"host": [
+						"{{baseUrl_customer}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl_customer}}/api/v1/customers",
+					"host": [
+						"{{baseUrl_customer}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl_customer}}/api/v1/customers/1",
+					"host": [
+						"{{baseUrl_customer}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Jose Lema (Actualizado)\",\n    \"gender\": \"M\",\n    \"address\": \"Nueva Direccion 123\",\n    \"phone\": \"099999999\",\n    \"status\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl_customer}}/api/v1/customers/1",
+					"host": [
+						"{{baseUrl_customer}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer (Logical)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl_customer}}/api/v1/customers/1",
+					"host": [
+						"{{baseUrl_customer}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"customers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl_customer",
+			"value": "http://localhost:8080",
+			"type": "default"
+		}
+	]
+}

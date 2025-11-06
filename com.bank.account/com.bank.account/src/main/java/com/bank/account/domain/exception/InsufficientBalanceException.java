@@ -1,3 +1,8 @@
 package com.bank.account.domain.exception;
 
-// TODO: Implementar InsufficientBalanceException
+public class InsufficientBalanceException extends RuntimeException {
+
+    public InsufficientBalanceException(String message) {
+        super(message);
+    }
+}

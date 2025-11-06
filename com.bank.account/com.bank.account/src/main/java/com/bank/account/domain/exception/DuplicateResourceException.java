@@ -1,3 +1,7 @@
 package com.bank.account.domain.exception;
 
-// TODO: Implementar DuplicateResourceException
+public class DuplicateResourceException extends RuntimeException {
+    public DuplicateResourceException(String message) {
+        super(message);
+    }
+}

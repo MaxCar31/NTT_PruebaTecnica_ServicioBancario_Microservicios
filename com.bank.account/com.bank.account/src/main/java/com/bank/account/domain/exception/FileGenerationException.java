@@ -1,3 +1,7 @@
 package com.bank.account.domain.exception;
 
-// TODO: Implementar FileGenerationException
+public class FileGenerationException extends RuntimeException {
+    public FileGenerationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
