@@ -1,0 +1,78 @@
+services:
+  # --- Servicio de Base de Datos para Clientes ---
+  customer-db:
+    image: postgres:15-alpine
+    container_name: customer-db
+    ports:
+      - "5432:5432" # Expone el puerto por si quieres conectarte desde tu PC
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=customer_db
+    volumes:
+      - customer_db_data:/var/lib/postgresql/data # Persistencia de datos
+    networks:
+      - bank-network
+
+  # --- Servicio de Base de Datos para Cuentas ---
+  account-db:
+    image: postgres:15-alpine
+    container_name: account-db
+    ports:
+      - "5433:5432" # Mapea al puerto 5433 de tu PC para evitar conflicto
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=account_db
+    volumes:
+      - account_db_data:/var/lib/postgresql/data # Persistencia de datos
+    networks:
+      - bank-network
+
+  # --- Microservicio de Clientes ---
+  customer-service:
+    container_name: customer-service
+    # Construye la imagen usando el Dockerfile dentro de la carpeta 'customer-service'
+    build:
+      context: ./com.bank.customer 
+    ports:
+      - "8080:8080" # Mapea el puerto del servicio
+    environment:
+      # Sobreescribe el application.properties para usar el nombre del servicio 'customer-db'
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://customer-db:5432/customer_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    networks:
+      - bank-network
+    depends_on:
+      - customer-db 
+
+  # --- Microservicio de Cuentas ---
+  account-service:
+    container_name: account-service
+    # Construye la imagen usando el Dockerfile dentro de la carpeta 'com.bank.account'
+    build:
+      context: ./com.bank.account 
+    ports:
+      - "8081:8081" # Mapea el puerto del servicio
+    environment:
+      # Sobreescribe el application.properties
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://account-db:5432/account_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SERVICES_CUSTOMER_BASE_URL=http://customer-service:8080
+    networks:
+      - bank-network
+    depends_on:
+      - account-db        
+      - customer-service 
+
+# Red interna para que los contenedores se comuniquen
+networks:
+  bank-network:
+    driver: bridge
+
+# Volúmenes para persistir los datos de las BDD
+volumes:
+  customer_db_data:
+  account_db_data:
