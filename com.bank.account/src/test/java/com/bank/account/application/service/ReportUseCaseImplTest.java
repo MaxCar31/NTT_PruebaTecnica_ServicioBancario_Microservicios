@@ -139,10 +139,9 @@ class ReportUseCaseImplTest {
                     assertEquals("225487", accountDetail.getAccountNumber());
                     assertTrue(accountDetail.getMovements().isEmpty()); // Lista de movimientos vacía
 
-
-                    // Tu nueva lógica devuelve 0 si no hay movimientos en el periodo [cite: 469, 471]
-                    assertEquals(BigDecimal.ZERO, accountDetail.getInitialBalance());
-                    assertEquals(BigDecimal.ZERO, accountDetail.getFinalBalance());
+                    // Si no hay movimientos, el saldo inicial y final es el saldo actual de la cuenta
+                    assertEquals(new BigDecimal("500"), accountDetail.getInitialBalance());
+                    assertEquals(new BigDecimal("500"), accountDetail.getFinalBalance());
                 })
                 .verifyComplete();
     }
