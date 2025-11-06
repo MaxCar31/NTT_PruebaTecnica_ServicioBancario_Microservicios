@@ -169,9 +169,9 @@ Una vez que los contenedores estén en ejecución, puedes acceder a la documenta
 
 ## 🗂️ Otros Entregables
 
-  * [cite\_start]**Especificación OpenAPI:** Se debe compartir la especificación `openapi.yaml` (tal como se solicita en los entregables)
-  * [cite\_start]**Colección Postman:** Se debe compartir la colección de pruebas de los endpoints
-  * [cite\_start]**Script de Base de Datos:** Se debe generar un script `BaseDatos.sql`
+  * **Especificación OpenAPI:** Se debe compartir la especificación `openapi.yaml` (tal como se solicita en los entregables)
+  * **Colección Postman:** Se debe compartir la colección de pruebas de los endpoints
+  * **Script de Base de Datos:** Se debe generar un script `BaseDatos.sql`
 
 -----
 
