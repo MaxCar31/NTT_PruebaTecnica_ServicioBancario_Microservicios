@@ -62,8 +62,7 @@ Gracias a Docker, el proyecto se puede levantar con un solo comando.
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone [URL-DE-TU-REPOSITORIO]
-    cd [NOMBRE-DE-LA-CARPETA]
+    git clone https://github.com/MaxCar31/NTT_PruebaTecnica_ServicioBancario_Microservicios.git
     ```
 
 2.  **Construir y ejecutar con Docker Compose:**
