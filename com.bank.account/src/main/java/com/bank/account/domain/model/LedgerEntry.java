@@ -29,44 +29,28 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class LedgerEntry {
 
-    /** Unique identifier for this ledger entry */
     private Long id;
 
-    /** When this entry was created (immutable timestamp) */
     private LocalDateTime timestamp;
 
-    /** Reference to the movement that generated this entry */
     private Long movementId;
 
-    /** Reference to the affected account */
     private Long accountId;
 
-    /** Type of ledger entry: DEBIT (money out) or CREDIT (money in) */
     private LedgerEntryType entryType;
 
-    /** Amount of this entry (always positive, sign is determined by entryType) */
     private BigDecimal amount;
 
-    /** Account balance BEFORE this entry was applied */
     private BigDecimal balanceBefore;
 
-    /** Account balance AFTER this entry was applied */
     private BigDecimal balanceAfter;
 
-    /** Optional description or notes about this entry */
     private String description;
 
-    /** User or system that initiated this entry (for audit purposes) */
     private String initiatedBy;
 
-    /**
-     * Type of ledger entry in double-entry bookkeeping
-     */
     public enum LedgerEntryType {
-        /** Debit: Money leaving the account (withdrawal, payment, transfer out) */
         DEBIT,
-
-        /** Credit: Money entering the account (deposit, transfer in) */
         CREDIT
     }
 }

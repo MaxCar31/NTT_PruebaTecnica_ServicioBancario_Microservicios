@@ -17,10 +17,6 @@ import java.util.List;
  * This service is responsible for managing the ledger (audit trail) of all
  * financial operations in the system. It follows the Event Sourcing pattern
  * where all changes are recorded as immutable events.
- * Key principles:
- * - All ledger entries are append-only (no updates or deletes)
- * - Each entry records the state before and after a transaction
- * - Complete audit trail for compliance and fraud detection
  */
 @Service
 @RequiredArgsConstructor

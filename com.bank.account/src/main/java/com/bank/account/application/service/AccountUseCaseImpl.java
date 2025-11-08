@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 public class AccountUseCaseImpl implements AccountUseCase {
 
     private final AccountRepositoryPort accountRepositoryPort;
-    private final CustomerClientPort customerClientPort; // CAMBIO
+    private final CustomerClientPort customerClientPort;
 
     @Override
     public Mono<Account> createAccount(Account account) {

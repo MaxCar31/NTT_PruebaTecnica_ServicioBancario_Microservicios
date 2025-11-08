@@ -39,20 +39,16 @@ public class MovementUseCaseImpl implements MovementUseCase {
         log.info("Attempting to register a movement of amount {} for account id: {}",
                 movement.getAmount(), movement.getAccountId());
 
-        // Validar monto en la cadena reactiva ANTES de entrar a transacción
         return Mono.fromRunnable(() -> validateMovementAmount(movement))
                 .then(Mono.fromCallable(() -> {
-                    // Usamos TransactionTemplate para operaciones JPA bloqueantes
+
                     TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
                     return transactionTemplate.execute(status -> executeMovementTransaction(movement));
                 }))
-                .subscribeOn(Schedulers.boundedElastic()); // Ejecutar en un hilo separado
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
-    /**
-     * Ejecuta la transacción atómica de movimiento.
-     * AHORA INCLUYE EL REGISTRO EN EL LEDGER.
-     */
+
     private Movement executeMovementTransaction(Movement movement) {
         Account account = fetchAndValidateAccount(movement.getAccountId());
         BigDecimal previousBalance = account.getInitialBalance();
@@ -61,10 +57,8 @@ public class MovementUseCaseImpl implements MovementUseCase {
         updateMovementDetails(movement, newBalance);
         updateAccountBalance(account, newBalance);
 
-        // Persistir movimiento y cuenta
         Movement savedMovement = persistMovement(movement, account, previousBalance, newBalance);
 
-        // NEW: Registrar en el Ledger (Event Sourcing)
         recordLedgerEntry(savedMovement, account, previousBalance, newBalance);
 
         return savedMovement;
@@ -111,10 +105,7 @@ public class MovementUseCaseImpl implements MovementUseCase {
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found with id: " + accountId));
     }
 
-    /**
-     * Valida que el monto del movimiento no sea cero.
-     * Lanza IllegalArgumentException si es inválido.
-     */
+
     private void validateMovementAmount(Movement movement) {
         if (movement.getAmount().compareTo(BigDecimal.ZERO) == 0) {
             log.error("Failed to register movement: The movement amount cannot be zero for account id: {}",
@@ -123,10 +114,7 @@ public class MovementUseCaseImpl implements MovementUseCase {
         }
     }
 
-    /**
-     * Calcula el nuevo balance basado en el tipo de movimiento (débito o crédito).
-     * Lanza InsufficientBalanceException si no hay saldo suficiente para débitos.
-     */
+
     private BigDecimal calculateNewBalance(Account account, Movement movement) {
         BigDecimal previousBalance = account.getInitialBalance();
         BigDecimal newBalance;
